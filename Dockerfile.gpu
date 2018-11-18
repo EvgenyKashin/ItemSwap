@@ -74,7 +74,12 @@ RUN conda install -y tensorflow-gpu==1.7.0 keras==2.2.0 \
  && conda clean -ya
 RUN conda install -y -c conda-forge matplotlib moviepy \
  && conda clean -ya
+RUN conda install -c 1adrianb face_alignment \
+ && conda clean -ya
 
 RUN conda install -c conda-forge nb_conda_kernels \
     && conda install notebook jupyter nb_conda -y
+
+RUN pip install youtube_dl
+
 EXPOSE 8892

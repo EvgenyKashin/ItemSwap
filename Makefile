@@ -16,3 +16,6 @@ run-jupyter:
 	docker run --rm -it -v ${CURDIR}:/app -w /app -p 8892:8892 ${IMAGE} jupyter notebook \
 		--ip=0.0.0.0 --port=8892 --no-browser --allow-root \
 		--NotebookApp.token='' --NotebookApp.password=''
+
+load-prepare-data:
+	${DOCKER_RUN} python load_prepare_data.py
