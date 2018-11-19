@@ -17,5 +17,9 @@ run-jupyter:
 		--ip=0.0.0.0 --port=8892 --no-browser --allow-root \
 		--NotebookApp.token='' --NotebookApp.password=''
 
-load-prepare-data:
-	${DOCKER_RUN} python load_prepare_data.py
+load-prepare-face-data:
+	${DOCKER_RUN} python load_prepare_face_data.py
+
+clear-data:
+	rm data_faces/videos/* -rf && rm data_faces/binary_masks -rf && rm data_faces/facesA -rf \
+		&& rm data_faces/facesB -rf && rm data_faces/null.mp4

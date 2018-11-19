@@ -9,18 +9,18 @@ from matplotlib import pyplot as plt
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 if __name__ == '__main__':
-    dir_faceA = "facesA/aligned_faces/"
-    dir_faceB = "facesB/aligned_faces/"
-    dir_bm_faceA_eyes = "./binary_masks/faceA_eyes"
-    dir_bm_faceB_eyes = "./binary_masks/faceB_eyes"
+    dir_faceA = "data_faces/facesA/aligned_faces/"
+    dir_faceB = "data_faces/facesB/aligned_faces/"
+    dir_bm_faceA_eyes = "data_faces/binary_masks/faceA_eyes"
+    dir_bm_faceB_eyes = "data_faces/binary_masks/faceB_eyes"
 
     fns_faceA = glob(f"{dir_faceA}/*.*")
     fns_faceB = glob(f"{dir_faceB}/*.*")
 
     fa = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D, flip_input=False)
 
-    Path(f"binary_masks/faceA_eyes").mkdir(parents=True, exist_ok=True)
-    Path(f"binary_masks/faceB_eyes").mkdir(parents=True, exist_ok=True)
+    Path(f"data_faces/binary_masks/faceA_eyes").mkdir(parents=True, exist_ok=True)
+    Path(f"data_faces/binary_masks/faceB_eyes").mkdir(parents=True, exist_ok=True)
 
     fns_face_not_detected = []
 

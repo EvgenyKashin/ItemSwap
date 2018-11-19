@@ -6,7 +6,7 @@ import argparse
 
 import tensorflow as tf
 from keras import backend as K
-from pathlib import PurePath, Path
+from pathlib import Path
 from moviepy.editor import VideoFileClip
 
 from umeyama import umeyama
@@ -33,7 +33,7 @@ def create_mtcnn(sess, model_path):
     return pnet, rnet, onet
 
 
-WEIGHTS_PATH = "weights/mtcnn_weights/"
+WEIGHTS_PATH = "weights_faces/mtcnn_weights/"
 
 
 def get_src_landmarks(x0, x1, y0, y1, pnts):
@@ -129,10 +129,10 @@ def process_video(input_img, folder='A', video_num='0'):
             aligned_det_face_im = landmarks_match_mtcnn(
                 det_face_im, src_landmarks, tar_landmarks)
 
-            fname = f"./faces{folder}/aligned_faces/vid_{video_num}_frame{frames}" \
+            fname = f"data_faces/faces{folder}/aligned_faces/vid_{video_num}_frame{frames}" \
                     f"face{str(idx)}.jpg"
             plt.imsave(fname, aligned_det_face_im, format="jpg")
-            fname = f"./faces{folder}/raw_faces/vid_{video_num}_frame{frames}" \
+            fname = f"data_faces/faces{folder}/raw_faces/vid_{video_num}_frame{frames}" \
                     f"face{str(idx)}.jpg"
             plt.imsave(fname, det_face_im, format="jpg")
 
@@ -143,7 +143,7 @@ def process_video(input_img, folder='A', video_num='0'):
             bm[int(src_landmarks[1][0] - h / 15):int(src_landmarks[1][0] + h / 15),
             int(src_landmarks[1][1] - w / 8):int(src_landmarks[1][1] + w / 8), :] = 255
             bm = landmarks_match_mtcnn(bm, src_landmarks, tar_landmarks)
-            fname = f"./faces{folder}/binary_masks_eyes/vid_{video_num}_frame{frames}" \
+            fname = f"data_faces/faces{folder}/binary_masks_eyes/vid_{video_num}_frame{frames}" \
                     f"face{str(idx)}.jpg"
             plt.imsave(fname, bm, format="jpg")
 
@@ -179,9 +179,10 @@ if __name__ == '__main__':
     rnet = K.function([rnet.layers['data']], [rnet.layers['conv5-2'], rnet.layers['prob1']])
     onet = K.function([onet.layers['data']], [onet.layers['conv6-2'], onet.layers['conv6-3'],
                                               onet.layers['prob1']])
-    Path(f"faces{folder}/aligned_faces").mkdir(parents=True, exist_ok=True)
-    Path(f"faces{folder}/raw_faces").mkdir(parents=True, exist_ok=True)
-    Path(f"faces{folder}/binary_masks_eyes").mkdir(parents=True, exist_ok=True)
+
+    Path(f"data_faces/faces{folder}/aligned_faces").mkdir(parents=True, exist_ok=True)
+    Path(f"data_faces/faces{folder}/raw_faces").mkdir(parents=True, exist_ok=True)
+    Path(f"data_faces/faces{folder}/binary_masks_eyes").mkdir(parents=True, exist_ok=True)
 
     global frames
     frames = 0
@@ -190,7 +191,7 @@ if __name__ == '__main__':
     save_interval = 6  # perform face detection every {save_interval} frames
     fn_input_video = path_video  # "data/videos/sobchak.mp4"
 
-    output = 'dummy.mp4'
+    output = 'data_faces/null.mp4'
     clip1 = VideoFileClip(fn_input_video)
 
     clip = clip1.fl_image(make_pocessor_video(folder, video_num))
