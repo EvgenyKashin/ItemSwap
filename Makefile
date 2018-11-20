@@ -22,4 +22,5 @@ load-prepare-face-data:
 
 clear-data:
 	rm data_faces/videos/* -rf && rm data_faces/binary_masks -rf && rm data_faces/facesA -rf \
-		&& rm data_faces/facesB -rf && rm data_faces/null.mp4
+		&& rm data_faces/facesB -rf && rm data_faces/null.mp4 \
+		&& rm weights_faces/gan_models -rf

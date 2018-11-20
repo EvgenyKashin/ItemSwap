@@ -81,5 +81,6 @@ RUN conda install -c conda-forge nb_conda_kernels \
     && conda install notebook jupyter nb_conda -y
 
 RUN pip install youtube_dl
+RUN pip install keras_vggface --no-dependencies
 
 EXPOSE 8892
