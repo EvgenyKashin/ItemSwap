@@ -5,22 +5,28 @@ import numpy as np
 from glob import glob
 from pathlib import PurePath, Path
 from matplotlib import pyplot as plt
+import argparse
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 if __name__ == '__main__':
-    dir_faceA = "data_faces/facesA/aligned_faces/"
-    dir_faceB = "data_faces/facesB/aligned_faces/"
-    dir_bm_faceA_eyes = "data_faces/binary_masks/faceA_eyes"
-    dir_bm_faceB_eyes = "data_faces/binary_masks/faceB_eyes"
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--data_folder', default='data_faces')
+    args = parser.parse_args()
+    data_folder = args.data_folder
+
+    dir_faceA = f"{data_folder}/facesA/aligned_faces/"
+    dir_faceB = f"{data_folder}/facesB/aligned_faces/"
+    dir_bm_faceA_eyes = f"{data_folder}/binary_masks/faceA_eyes"
+    dir_bm_faceB_eyes = f"{data_folder}/binary_masks/faceB_eyes"
 
     fns_faceA = glob(f"{dir_faceA}/*.*")
     fns_faceB = glob(f"{dir_faceB}/*.*")
 
     fa = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D, flip_input=False)
 
-    Path(f"data_faces/binary_masks/faceA_eyes").mkdir(parents=True, exist_ok=True)
-    Path(f"data_faces/binary_masks/faceB_eyes").mkdir(parents=True, exist_ok=True)
+    Path(f"{data_folder}/binary_masks/faceA_eyes").mkdir(parents=True, exist_ok=True)
+    Path(f"{data_folder}/binary_masks/faceB_eyes").mkdir(parents=True, exist_ok=True)
 
     fns_face_not_detected = []
 
