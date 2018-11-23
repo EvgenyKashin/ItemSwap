@@ -83,4 +83,7 @@ RUN conda install -c conda-forge nb_conda_kernels \
 RUN pip install youtube_dl
 RUN pip install keras_vggface --no-dependencies
 
+RUN sudo apt-get update && sudo apt-get install -y ffmpeg \
+    && sudo rm -rf /var/lib/apt/lists/*
+
 EXPOSE 8892
