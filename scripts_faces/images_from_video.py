@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 from images_from_video_utils import *
 
-os.environ["CUDA_VISIBLE_DEVICES"] = '0'
+os.environ["CUDA_VISIBLE_DEVICES"] = '1'
 WEIGHTS_PATH = "weights_faces/mtcnn_weights/"
 
 
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     save_interval = 6  # perform face detection every {save_interval} frames
     fn_input_video = path_video  # "data/videos/sobchak.mp4"
 
-    output = '{data_folder}/null.mp4'
+    output = f'{data_folder}/null.mp4'
     clip1 = VideoFileClip(fn_input_video)
 
     clip = clip1.fl_image(make_pocessor_video(folder, video_num, data_folder))
