@@ -18,9 +18,13 @@ run-jupyter:
 		--NotebookApp.token='' --NotebookApp.password=''
 
 load-prepare-face-data:
+	export urls_path=urls_faces_sobchak.yaml
+	export images_path=align_celeba
+	export data_folder_path=data_all2sobchak
 	${DOCKER_RUN} python load_prepare_face_data.py
 
 clear-data:
 	rm data_faces/videos/* -rf && rm data_faces/binary_masks -rf && rm data_faces/facesA -rf \
 		&& rm data_faces/facesB -rf && rm data_faces/null.mp4 \
 		&& rm weights_faces/gan_models -rf
+
