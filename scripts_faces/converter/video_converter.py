@@ -173,7 +173,7 @@ class VideoConverter(object):
                 # merge source face and transformed face
                 result = np.zeros_like(det_face_im)
                 result = rev_aligned_mask/255*rev_aligned_det_face_im + (1-rev_aligned_mask/255)*det_face_im
-                result = rev_aligned_det_face_im
+                # result = rev_aligned_det_face_im
                 result_a = rev_aligned_mask
             except:            
                 # catch exceptions for landmarks alignment errors (if any)
