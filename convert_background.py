@@ -13,6 +13,7 @@ if __name__ == '__main__':
     opt.serial_batches = True  # no shuffle
     opt.no_flip = True    # no flip
     opt.display_id = -1   # no visdom display
+    # opt.checkpoints_dir = 'weights_background'
     data_loader = CreateDataLoader(opt)
     dataset = data_loader.load_data()
     model = create_model(opt)
@@ -26,10 +27,10 @@ if __name__ == '__main__':
     for i, data in enumerate(dataset):
         if i >= opt.num_test:
             break
-        model.set_input(data)
+        model.set_inputA(data)
         model.testA()
         visuals = model.get_visuals_fakeB()
         img_path = model.get_image_paths()
-        save_images_to_folder('results', visuals, img_path, aspect_ratio=opt.aspect_ratio,
+        save_images_to_folder(opt.results_dir, visuals, img_path, aspect_ratio=opt.aspect_ratio,
                               width=opt.display_winsize)
 

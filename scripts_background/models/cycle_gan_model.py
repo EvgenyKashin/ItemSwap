@@ -77,6 +77,11 @@ class CycleGANModel(BaseModel):
         self.real_B = input['B' if AtoB else 'A'].to(self.device)
         self.image_paths = input['A_paths' if AtoB else 'B_paths']
 
+    def set_inputA(self, input):
+        AtoB = self.opt.direction == 'AtoB'
+        self.real_A = input['A' if AtoB else 'B'].to(self.device)
+        self.image_paths = input['A_paths' if AtoB else 'B_paths']
+
     def forward(self):
         self.fake_B = self.netG_A(self.real_A)
         self.rec_A = self.netG_B(self.fake_B)

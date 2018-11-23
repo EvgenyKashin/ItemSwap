@@ -38,6 +38,7 @@ def save_images(webpage, visuals, image_path, aspect_ratio=1.0, width=256):
         links.append(image_name)
     webpage.add_images(ims, txts, links, width=width)
 
+
 def save_images_to_folder(image_dir, visuals, image_path, aspect_ratio=1.0, width=256):
     short_path = ntpath.basename(image_path[0])
     name = os.path.splitext(short_path)[0]

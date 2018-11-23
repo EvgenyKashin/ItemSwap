@@ -34,3 +34,9 @@ convert_video:
 
 convert_image:
 	${DOCKER_RUN} python convert_face_image.py me.jpg gen_me.jpg
+
+convert_background:
+	${DOCKER_RUN} python convert_background.py --dataroot data_background \
+	--name rick_morty --model cycle_gan --checkpoints_dir weights_background \
+	--results_dir results
+
