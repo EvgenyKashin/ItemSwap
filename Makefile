@@ -28,3 +28,9 @@ clear-data:
 		&& rm data_faces/facesB -rf && rm data_faces/null.mp4 \
 		&& rm weights_faces/gan_models -rf
 
+convert_video:
+	${DOCKER_RUN} python convert_face_video.py elon.mp4 gen_b.mp4 \
+		--start_time 20 --end_time 40
+
+convert_image:
+	${DOCKER_RUN} python convert_face_image.py me.jpg gen_me.jpg

@@ -72,4 +72,4 @@ if __name__ == '__main__':
     duration = (int(start_time), int(end_time))
     print('Duration', duration)
     vc.convert(input_fn=input_fn, output_fn=output_fn, options=options,
-               duration=duration) # TODO: make with batch
+               duration=duration)  # TODO: make with batch
