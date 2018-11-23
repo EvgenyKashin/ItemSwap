@@ -38,6 +38,21 @@ def save_images(webpage, visuals, image_path, aspect_ratio=1.0, width=256):
         links.append(image_name)
     webpage.add_images(ims, txts, links, width=width)
 
+def save_images_to_folder(image_dir, visuals, image_path, aspect_ratio=1.0, width=256):
+    short_path = ntpath.basename(image_path[0])
+    name = os.path.splitext(short_path)[0]
+
+    for label, im_data in visuals.items():
+        im = util.tensor2im(im_data)
+        image_name = '%s.jpg' % name
+        save_path = os.path.join(image_dir, image_name)
+        h, w, _ = im.shape
+        if aspect_ratio > 1.0:
+            im = imresize(im, (h, int(w * aspect_ratio)), interp='bicubic')
+        if aspect_ratio < 1.0:
+            im = imresize(im, (int(h / aspect_ratio), w), interp='bicubic')
+        util.save_image(im, save_path)
+
 
 class Visualizer():
     def __init__(self, opt):

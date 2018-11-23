@@ -34,6 +34,9 @@ class BaseModel():
     def forward(self):
         pass
 
+    def forwardA(self):
+        pass
+
     # load and print networks; create schedulers
     def setup(self, opt, parser=None):
         if self.isTrain:
@@ -56,6 +59,10 @@ class BaseModel():
         with torch.no_grad():
             self.forward()
 
+    def testA(self):
+        with torch.no_grad():
+            self.forwardA()
+
     # get image paths
     def get_image_paths(self):
         return self.image_paths
@@ -77,6 +84,16 @@ class BaseModel():
             if isinstance(name, str):
                 visual_ret[name] = getattr(self, name)
         return visual_ret
+
+    def get_visuals_fakeB(self):
+        visual_ret = OrderedDict()
+        for name in self.visual_names:
+            if name != 'fake_B':
+                continue
+            if isinstance(name, str):
+                visual_ret[name] = getattr(self, name)
+        return visual_ret
+
 
     # return traning losses/errors. train.py will print out these errors as debugging information
     def get_current_losses(self):

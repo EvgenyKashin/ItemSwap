@@ -2,8 +2,7 @@ import os
 from scripts_background.options.test_options import TestOptions
 from scripts_background.data import CreateDataLoader
 from scripts_background.models import create_model
-from scripts_background.util.visualizer import save_images
-from scripts_background.util import html
+from scripts_background.util.visualizer import save_images_to_folder
 
 
 if __name__ == '__main__':
@@ -19,8 +18,6 @@ if __name__ == '__main__':
     model = create_model(opt)
     model.setup(opt)
     # create a website
-    web_dir = os.path.join(opt.results_dir, opt.name, '%s_%s' % (opt.phase, opt.epoch))
-    webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (opt.name, opt.phase, opt.epoch))
     # test with eval mode. This only affects layers like batchnorm and dropout.
     # pix2pix: we use batchnorm and dropout in the original pix2pix. You can experiment it with and without eval() mode.
     # CycleGAN: It should not affect CycleGAN as CycleGAN uses instancenorm without dropout.
@@ -30,12 +27,9 @@ if __name__ == '__main__':
         if i >= opt.num_test:
             break
         model.set_input(data)
-        model.test()
-        visuals = model.get_current_visuals()
+        model.testA()
+        visuals = model.get_visuals_fakeB()
         img_path = model.get_image_paths()
-        import pdb; pdb.set_trace()
-        if i % 5 == 0:
-            print('processing (%04d)-th image... %s' % (i, img_path))
-        save_images(webpage, visuals, img_path, aspect_ratio=opt.aspect_ratio, width=opt.display_winsize)
-    # save the website
-    webpage.save()
+        save_images_to_folder('results', visuals, img_path, aspect_ratio=opt.aspect_ratio,
+                              width=opt.display_winsize)
+
