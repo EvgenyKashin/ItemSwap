@@ -164,14 +164,15 @@ class VideoConverter(object):
                     color_correction=options["use_color_correction"],
                     IMAGE_SHAPE=options["IMAGE_SHAPE"]
                     )
+                r_a = np.clip(r_a * 2.1, 0, 255).astype(np.uint8)  # magic line
 
                 # reverse alignment
-                rev_aligned_det_face_im = landmarks_match_mtcnn(r_im, tar_landmarks, src_landmarks)
+                rev_aligned_det_face_im = landmarks_match_mtcnn(r_rgb, tar_landmarks, src_landmarks)
                 rev_aligned_mask = landmarks_match_mtcnn(r_a, tar_landmarks, src_landmarks)
 
                 # merge source face and transformed face
                 result = np.zeros_like(det_face_im)
-#                 result = rev_aligned_mask/255*rev_aligned_det_face_im + (1-rev_aligned_mask/255)*det_face_im
+                result = rev_aligned_mask/255*rev_aligned_det_face_im + (1-rev_aligned_mask/255)*det_face_im
                 result = rev_aligned_det_face_im
                 result_a = rev_aligned_mask
             except:            
