@@ -4,7 +4,7 @@ from .face_transformer import FaceTransformer
 from .vc_utils import *
 import numpy as np
 from moviepy.editor import VideoFileClip
-
+import cv2
 
 class VideoConverter(object):
     """
@@ -94,7 +94,109 @@ class VideoConverter(object):
             clip1.audio.reader.close_proc()
         except:
             pass
-        
+
+    def convert_image(self, input_fn, output_fn, options):
+        """Transform detected faces in single input frame."""
+        image = cv2.imread(input_fn)[:, :, ::-1]
+        input_img = image
+
+        # detect face using MTCNN (faces: face bbox coord, pnts: landmarks coord.)
+        faces, pnts = self.fdetect.detect_face(image, minsize=20,
+                                               threshold=options["detec_threshold"],
+                                               factor=0.709,
+                                               use_auto_downscaling=options["use_auto_downscaling"],
+                                               min_face_area=options["min_face_area"]
+                                               )
+
+        # check if any face detected
+        if len(faces) == 0:
+            comb_img = get_init_comb_img(input_img)
+            triple_img = get_init_triple_img(input_img, no_face=True)
+
+        # init. output image
+        mask_map = get_init_mask_map(image)
+        comb_img = get_init_comb_img(input_img)
+        best_conf_score = 0
+
+        # loop through all detected faces
+        for i, (x0, y1, x1, y0, conf_score) in enumerate(faces):
+            lms = pnts[:, i:i + 1]
+            # transform face
+            try:
+                # get detected face
+                det_face_im = input_img[int(x0):int(x1), int(y0):int(y1), :]
+
+                # get src/tar landmarks
+                src_landmarks = get_src_landmarks(x0, x1, y0, y1, lms)
+                tar_landmarks = get_tar_landmarks(det_face_im)
+
+                # align detected face
+                aligned_det_face_im = landmarks_match_mtcnn(det_face_im, src_landmarks,
+                                                            tar_landmarks)
+
+                # face transform
+                r_im, r_rgb, r_a = self.ftrans.transform(
+                    aligned_det_face_im,
+                    direction=options["direction"],
+                    roi_coverage=options["roi_coverage"],
+                    color_correction=options["use_color_correction"],
+                    IMAGE_SHAPE=options["IMAGE_SHAPE"]
+                )
+                r_a = np.clip(r_a * 2.1, 0, 255).astype(np.uint8)  # magic line
+
+                # reverse alignment
+                rev_aligned_det_face_im = landmarks_match_mtcnn(r_rgb, tar_landmarks, src_landmarks)
+                rev_aligned_mask = landmarks_match_mtcnn(r_a, tar_landmarks, src_landmarks)
+
+                # merge source face and transformed face
+                result = np.zeros_like(det_face_im)
+                result = rev_aligned_mask / 255 * rev_aligned_det_face_im + (
+                            1 - rev_aligned_mask / 255) * det_face_im
+                result_a = rev_aligned_mask
+            except:
+                # catch exceptions for landmarks alignment errors (if any)
+                print(f"Face alignment error occurs at image")
+                # get detected face
+                det_face_im = input_img[int(x0):int(x1), int(y0):int(y1), :]
+
+                result, _, result_a = self.ftrans.transform(
+                    det_face_im,
+                    direction=options["direction"],
+                    roi_coverage=options["roi_coverage"],
+                    color_correction=options["use_color_correction"],
+                    IMAGE_SHAPE=options["IMAGE_SHAPE"]
+                )
+
+            comb_img[int(x0):int(x1), input_img.shape[1] + int(y0):input_img.shape[1] + int(y1),
+            :] = result
+
+            # Enhance output
+            if options["enhance"] != 0:
+                comb_img = -1 * options["enhance"] * get_init_comb_img(input_img) + (
+                            1 + options["enhance"]) * comb_img
+                comb_img = np.clip(comb_img, 0, 255)
+
+            if conf_score >= best_conf_score:
+                mask_map[int(x0):int(x1), int(y0):int(y1), :] = result_a
+                mask_map = np.clip(mask_map + .15 * input_img, 0, 255)
+                # Possible bug: when small faces are detected before the most confident face,
+                #               the mask_map will show brighter input_img
+            else:
+                mask_map[int(x0):int(x1), int(y0):int(y1), :] += result_a
+                mask_map = np.clip(mask_map, 0, 255)
+
+            triple_img = get_init_triple_img(input_img)
+            triple_img[:, :input_img.shape[1] * 2, :] = comb_img
+            triple_img[:, input_img.shape[1] * 2:, :] = mask_map
+
+        if options["output_type"] == 1:
+            final_result = comb_img[:, input_img.shape[1]:, :]  # return only result image
+        elif options["output_type"] == 2:
+            final_result = comb_img  # return input and result image combined as one
+        elif options["output_type"] == 3:
+            final_result = triple_img  # return input,result and mask heatmap image combin
+        cv2.imwrite(output_fn, final_result[:, :, ::-1])
+
     def process_video(self, input_img, options): 
         """Transform detected faces in single input frame."""
         image = input_img
