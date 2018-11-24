@@ -30,7 +30,7 @@ clear-face-data:
 
 convert-face-video:
 	${DOCKER_RUN} python convert_face_video.py elon.mp4 gen_b.mp4 \
-		--start_time 20 --end_time 40
+		--start_time 20 --end_time 25
 
 convert-face-image:
 	${DOCKER_RUN} python convert_face_image.py me.jpg gen_me.jpg
@@ -40,3 +40,14 @@ convert-background-image:
 	--name rick_morty --model cycle_gan --checkpoints_dir weights_background \
 	--results_dir results
 
+save-weights:
+	zip -r ../gan_weights/weights_faces.zip weights_faces
+	zip -r ../gan_weights/weights_background.zip weights_background
+
+load-weights:
+	wget https://bitbucket.org/EvgenyKashin/gan_weights/raw/53f9086c0104bd717d594cb5c8a943a61c579a70/weights_background.zip
+	wget https://bitbucket.org/EvgenyKashin/gan_weights/raw/53f9086c0104bd717d594cb5c8a943a61c579a70/weights_faces.zip
+	unzip weights_background.zip
+	unzip weights_faces.zip
+	rm weights_background.zip
+	rm weights_faces.zip
