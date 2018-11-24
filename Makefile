@@ -23,19 +23,19 @@ load-prepare-face-data:
 	export data_folder_path=data_all2sobchak
 	${DOCKER_RUN} python load_prepare_face_data.py
 
-clear-data:
+clear-face-data:
 	rm data_faces/videos/* -rf && rm data_faces/binary_masks -rf && rm data_faces/facesA -rf \
 		&& rm data_faces/facesB -rf && rm data_faces/null.mp4 \
 		&& rm weights_faces/gan_models -rf
 
-convert_video:
+convert-face-video:
 	${DOCKER_RUN} python convert_face_video.py elon.mp4 gen_b.mp4 \
 		--start_time 20 --end_time 40
 
-convert_image:
+convert-face-image:
 	${DOCKER_RUN} python convert_face_image.py me.jpg gen_me.jpg
 
-convert_background:
+convert-background-image:
 	${DOCKER_RUN} python convert_background.py --dataroot data_background \
 	--name rick_morty --model cycle_gan --checkpoints_dir weights_background \
 	--results_dir results
