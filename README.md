@@ -12,6 +12,6 @@ TODO: write instruction
 ### For face swap:
 - make convert-face-video
 - make convert-face-image
-- convert-background-image
+- make convert-background-image
 
 For parameters see Makefile
