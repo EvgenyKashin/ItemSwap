@@ -21,4 +21,5 @@ TODO: write instruction
 - make convert-background-image
 ```
 For parameters see Makefile
+
 ***Important:*** there is ```loadSize``` parameter in ```make convert-background-image``` for changing image size.
