@@ -9,7 +9,7 @@ Consist of two part: swapping face and swaping background.
 ```
 
 ***Important:*** run docker under sudo. Also may be required
-```sudo chmod -R 777 ./*``` (sorry)
+```sudo chmod -R 777 .``` (sorry)
 
 ### For training:
 TODO: write instruction
