@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 from images_from_video_utils import *
 
-os.environ["CUDA_VISIBLE_DEVICES"] = '1'
+# os.environ["CUDA_VISIBLE_DEVICES"] = '1'
 WEIGHTS_PATH = "weights_faces/mtcnn_weights/"
 
 

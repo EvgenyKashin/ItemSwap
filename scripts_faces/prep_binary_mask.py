@@ -7,7 +7,7 @@ from pathlib import PurePath, Path
 from matplotlib import pyplot as plt
 import argparse
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
