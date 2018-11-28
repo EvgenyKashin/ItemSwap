@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 
 from images_from_video_utils import *
 
-# os.environ["CUDA_VISIBLE_DEVICES"] = '1'
 WEIGHTS_PATH = "weights_faces/mtcnn_weights/"
 
 
@@ -71,13 +70,16 @@ if __name__ == '__main__':
     parser.add_argument('video_num')
     parser.add_argument('path_video')
     parser.add_argument('--data_folder', default='data_faces')
+    parser.add_argument('--cuda_device', default='0')
     args = parser.parse_args()
 
     folder = args.folder
     video_num = args.video_num
     path_video = args.path_video
     data_folder = args.data_folder
+    cuda_device = args.cuda_device
 
+    os.environ["CUDA_VISIBLE_DEVICES"] = cuda_device
     sess = K.get_session()
 
     with sess.as_default():

@@ -7,13 +7,16 @@ from pathlib import PurePath, Path
 from matplotlib import pyplot as plt
 import argparse
 
-# os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_folder', default='data_faces')
+    parser.add_argument('--cuda_device', default='0')
     args = parser.parse_args()
+
     data_folder = args.data_folder
+    cuda_device = args.cuda_device
+    os.environ["CUDA_VISIBLE_DEVICES"] = cuda_device
 
     dir_faceA = f"{data_folder}/facesA/aligned_faces/"
     dir_faceB = f"{data_folder}/facesB/aligned_faces/"
