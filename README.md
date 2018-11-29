@@ -1,5 +1,5 @@
 # Item swap
-Consist of two part: swapping face and swaping background.
+Consist of two part: swapping face and swapping background.
 ## Using
 ### For initialization:
 ```
