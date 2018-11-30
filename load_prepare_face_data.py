@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
     # Cropping face from images
     if images_path is not None:
-        subprocess.call(f'python scripts_faces/images_from_images.py {folder} {images_path} '
+        subprocess.call(f'python scripts_faces/images_from_images.py A {images_path} '
                         f'--data_folder {data_folder_path} '
                         f'--cuda_device {cuda_device}', shell=True)
 
