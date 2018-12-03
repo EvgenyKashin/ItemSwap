@@ -4,15 +4,19 @@ background.
 
 ## Examples
 Source image:
+
 <img src="images/a.jpg" width="256">
 
 Face swap:
+
 <img src="images/b.jpg" width="256">
 
 Background swap:
+
 <img src="images/c.jpg" width="256">
 
 All together:
+
 <img src="images/d.jpg" width="256">
 
 ## Using
