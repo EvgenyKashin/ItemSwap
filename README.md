@@ -1,5 +1,5 @@
 # Item swap
-This is source code for picsart.ai hackaton. It onsist of two part: swapping face and swapping 
+This is source code for picsart.ai hackaton. It consist of two part: swapping face and swapping 
 background.
 
 ## Examples
