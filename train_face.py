@@ -281,9 +281,9 @@ if __name__ == '__main__':
             print("Done.")
         elif gen_iterations == (8*TOTAL_ITERS//10 - display_iters//2):
             # swap decoders
-            model.decoder_A.load_weights("weights_faces_sobchak2all/gan_models/decoder_B.h5")
+            model.decoder_A.load_weights("weights_faces/gan_models/decoder_B.h5")
             # swap decoders
-            model.decoder_B.load_weights("weights_faces_sobchak2all/gan_models/decoder_A.h5")
+            model.decoder_B.load_weights("weights_faces/gan_models/decoder_A.h5")
             loss_config['use_PL'] = True
             loss_config['use_mask_hinge_loss'] = True
             loss_config['m_mask'] = 0.1
