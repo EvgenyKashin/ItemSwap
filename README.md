@@ -1,5 +1,20 @@
 # Item swap
-Consist of two part: swapping face and swapping background.
+This is source code for picsart.ai hackaton. It onsist of two part: swapping face and swapping 
+background.
+
+## Examples
+Source image:
+<img src="a.jpg" width="256">
+
+Face swap:
+<img src="b.jpg" width="256">
+
+Background swap:
+<img src="c.jpg" width="256">
+
+All together:
+<img src="d.jpg" width="256">
+
 ## Using
 ### For initialization:
 ```
@@ -8,11 +23,11 @@ Consist of two part: swapping face and swapping background.
 - make load-weights
 ```
 
-***Important:*** run docker under sudo. Also may be required
-```sudo chmod -R 777 .``` (sorry)
-
 ### For training:
-TODO: write instruction
+```
+- make train-face
+- TODO: write instruction
+```
 
 ### For face and background swap:
 ```
