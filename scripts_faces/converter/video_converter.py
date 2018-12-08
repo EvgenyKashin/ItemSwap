@@ -94,10 +94,18 @@ class VideoConverter(object):
             clip1.audio.reader.close_proc()
         except:
             pass
+    
+    def resize(img, target_w=256):
+        orig_size = (img.shape[0], img.shape[1])
+        ratio_w = orig_size[1] / target_w
+        new_size = (int(orig_size[1] / ratio_w), int(orig_size[0] / ratio_w))
+#         print(f'Resize from {orig_size} to {new_size}')
+        return cv2.resize(img, new_size)
 
     def convert_image(self, input_fn, output_fn, options):
         """Transform detected faces in single input frame."""
         image = cv2.imread(input_fn)[:, :, ::-1]
+        image = VideoConverter.resize(image.copy(), target_w=512)
         input_img = image
 
         # detect face using MTCNN (faces: face bbox coord, pnts: landmarks coord.)
@@ -200,6 +208,7 @@ class VideoConverter(object):
 
     def process_video(self, input_img, options): 
         """Transform detected faces in single input frame."""
+        input_img = VideoConverter.resize(input_img.copy(), target_w=512)
         image = input_img
 
         # detect face using MTCNN (faces: face bbox coord, pnts: landmarks coord.)
