@@ -22,14 +22,16 @@ load-prepare-face-data:
 		--data_folder_path data_all2sobchak --images_path align_celeba \
 		--cuda_device 0
 
+train-face:
+	${DOCKER_RUN} python train_face.py --cuda_device 0
+
 clear-face-data:
 	rm data_faces/videos/* -rf && rm data_faces/binary_masks -rf && rm data_faces/facesA -rf \
 		&& rm data_faces/facesB -rf && rm data_faces/null.mp4 \
 		&& rm weights_faces/gan_models -rf
 
 convert-face-video:
-	${DOCKER_RUN} python convert_face_video.py elon.mp4 gen_b.mp4 \
-		--start_time 20 --end_time 25
+	${DOCKER_RUN} python convert_face_video.py video.mp4 gen_video.mp4
 
 convert-face-image:
 	${DOCKER_RUN} python convert_face_image.py me.jpg gen_me.jpg

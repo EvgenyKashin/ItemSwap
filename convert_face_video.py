@@ -31,8 +31,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('input_fn')
     parser.add_argument('output_fn')
-    parser.add_argument('--start_time', default=15)
-    parser.add_argument('--end_time', default=25)
+    parser.add_argument('--start_time', default=0)
+    parser.add_argument('--end_time', default=None)
     parser.add_argument('--weights_path',
                         default='weights_faces_sobchak2all/gan_models/backup_iter40000/')
 
@@ -68,8 +68,10 @@ if __name__ == '__main__':
         "output_type": 1,
         "direction": "AtoB",
     }
-
-    duration = (int(start_time), int(end_time))
+    if end_time is None:
+        duration = None
+    else:
+        duration = (int(start_time), int(end_time))
     print('Duration', duration)
     vc.convert(input_fn=input_fn, output_fn=output_fn, options=options,
                duration=duration)  # TODO: make with batch
