@@ -1,6 +1,6 @@
 # Item swap
-This is source code for picsart.ai hackaton. It consist of two part: swapping face and swapping 
-background.
+This is part of source code for picsart.ai hackaton. It consist of two part: swapping face and swapping 
+background. Full repo: https://github.com/n01z3/deep-anonymizer 
 
 ## Examples
 Source image:
@@ -42,3 +42,5 @@ All together:
 For parameters see Makefile
 
 ***Important:*** there is ```loadSize``` parameter in ```make convert-background-image``` for changing image size.
+
+
