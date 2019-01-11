@@ -43,4 +43,9 @@ For parameters see Makefile
 
 ***Important:*** there is ```loadSize``` parameter in ```make convert-background-image``` for changing image size.
 
-
+## Links
+### About hackathon
+https://habr.com/company/ods/blog/433586/ - article (rus)
+### Based on
+- https://github.com/shaoanlu/faceswap-GAN
+- https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix
